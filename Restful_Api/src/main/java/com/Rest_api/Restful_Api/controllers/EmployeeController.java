@@ -3,6 +3,7 @@ package com.Rest_api.Restful_Api.controllers;
 import com.Rest_api.Restful_Api.dto.EmployeeDTO;
 import com.Rest_api.Restful_Api.entities.EmployeeEntity;
 import com.Rest_api.Restful_Api.respositories.EmployeeRepository;
+import com.Rest_api.Restful_Api.services.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -23,25 +24,34 @@ public class EmployeeController {
 //    }
 
     // now we direct pass the parameter for the employeerepository
-    private final EmployeeRepository employeeRepository;
+//    private final EmployeeRepository employeeRepository; ---> due to we dont use this thing we use this by adding service
+    private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
     }
+
+    //    public EmployeeController(EmployeeRepository employeeRepository) {
+//        this.employeeRepository = employeeRepository;
+//    }
+    // we remvoe the employeecontroller constuctor and use the employeeservice constructor
+
 
     //     path variable ----> used for the normal ids
     @GetMapping("/{employeeID}")
-    public EmployeeEntity getEmployeeById(@PathVariable(name = "employeeID") Long id){
+    public EmployeeDTO getEmployeeById(@PathVariable(name = "employeeID") Long id){
 //         return new EmployeeDTO(employeeID,  "Harh","harsh@gmial.com", 23,LocalDate.of(2024,1,12),true);
-        return employeeRepository.findById(id).orElse(null);
+        return employeeService.getEmployeeById(id);
+
+
     }
 
 
     // Requestparam --> you need get all the employee and short or filter those in based of other thing like age
 
     @GetMapping
-    public List<EmployeeEntity> getAllEmployees(@RequestParam(required = false) Integer age, @RequestParam(required = false) String sortBy){
-        return employeeRepository.findAll();
+    public List<EmployeeDTO> getAllEmployees(@RequestParam(required = false) Integer age, @RequestParam(required = false) String sortBy){
+        return employeeService.getAllEmployees();
     }
 
     // postmapping
@@ -52,14 +62,15 @@ public class EmployeeController {
 
     // postmapping using the requestbody
     @PostMapping
-    public EmployeeEntity createNewEmployee(@RequestBody EmployeeEntity inputEmployee){
-        return employeeRepository.save(inputEmployee);
+    public EmployeeDTO createNewEmployee(@RequestBody EmployeeDTO inputEmployee){
+        return employeeService.createNewEmployee(inputEmployee);
     }
     // putmapping---------
-    @PutMapping
-    String updateEmployeeById(){
-        return "Hello from put";
+    @PutMapping("/{employeeId}")
+    EmployeeDTO updateEmployeeById(){
+        return "hwollo form put";
     }
+
 
 }
 
