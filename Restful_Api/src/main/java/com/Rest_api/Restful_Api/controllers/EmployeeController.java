@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-
+import java.util.Map;
+import java.util.Objects;
 
 
 // create a parent url path
@@ -67,8 +68,20 @@ public class EmployeeController {
     }
     // putmapping---------
     @PutMapping("/{employeeId}")
-    EmployeeDTO updateEmployeeById(){
-        return "hwollo form put";
+    public EmployeeDTO updateEmployeeById(@RequestBody EmployeeDTO employeeDTO , @PathVariable Long employeeId){
+
+        return employeeService.updateEmployeeById(employeeId,employeeDTO);
+    }
+
+    //Delete mapping
+    @DeleteMapping("/{employeeId}")
+    public boolean deleteEmployeeById(@PathVariable Long employeeId){
+       return  employeeService.deleteEmployeeById(employeeId);
+    }
+    // update the partial data
+    @PatchMapping(path  = "/{employeeId}")
+    public EmployeeDTO updatePartialEmployeeId(@RequestBody Map<String, Object> updates, @PathVariable Long employeeId){
+        return employeeService.updatePartialEmployeeById(employeeId,updates);
     }
 
 
