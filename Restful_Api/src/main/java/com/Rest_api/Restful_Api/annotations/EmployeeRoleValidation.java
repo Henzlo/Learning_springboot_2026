@@ -1,4 +1,4 @@
-package annotations;
+package com.Rest_api.Restful_Api.annotations;
 
 
 import jakarta.validation.Constraint;
@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD,ElementType.PARAMETER})
-//we nee to pass the value to the constraint of employeerolevalidator logic class to here or connect it 
+//we nee to pass the value to the constraint of employeerolevalidator logic class to here or connect it
 @Constraint(validatedBy = {EmployeeRoleValidator.class})
 
 public @interface EmployeeRoleValidation {

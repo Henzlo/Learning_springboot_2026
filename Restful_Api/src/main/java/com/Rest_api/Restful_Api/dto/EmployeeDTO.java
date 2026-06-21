@@ -1,6 +1,6 @@
 package com.Rest_api.Restful_Api.dto;
 
-import annotations.EmployeeRoleValidation;
+import com.Rest_api.Restful_Api.annotations.EmployeeRoleValidation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;

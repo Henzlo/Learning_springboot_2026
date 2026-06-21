@@ -10,10 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 
 // create a parent url path
@@ -23,26 +20,14 @@ import java.util.Optional;
 @RestController
 public class EmployeeController {
 
-//    @GetMapping(path = "/getSecertMessage")
-//    public String getMySuperSecretMessage(){
-//        return "Secret message: harshit@#9014";
-//    }
 
-    // now we direct pass the parameter for the employeerepository
-//    private final EmployeeRepository employeeRepository; ---> due to we dont use this thing we use this by adding service
     private final EmployeeService employeeService;
 
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
-    //    public EmployeeController(EmployeeRepository employeeRepository) {
-//        this.employeeRepository = employeeRepository;
-//    }
-    // we remvoe the employeecontroller constuctor and use the employeeservice constructor
 
-
-    //     path variable ----> used for the normal ids
 
     @GetMapping("/{employeeID}")
     public ResponseEntity<EmployeeDTO> getEmployeeById (@PathVariable(name = "employeeID") Long id){
@@ -50,7 +35,8 @@ public class EmployeeController {
         Optional<EmployeeDTO> employeeDTO = employeeService.getEmployeeById(id);
         return employeeDTO
                 .map(employeeDTO1 -> ResponseEntity.ok(employeeDTO1))
-                .orElse(ResponseEntity.notFound().build());
+                // we need to change here also due to not found employee exceptional handling
+                .orElseThrow(()->new NoSuchElementException("Employee not found"));
 
     }
 
@@ -62,13 +48,7 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeService.getAllEmployees());
     }
 
-    // postmapping
-//    @PostMapping
-//    public String createNewEmployee(){
-//        return "Hello form Post";
-//    }
 
-    // postmapping using the requestbody
     @PostMapping
     public ResponseEntity<EmployeeDTO> createNewEmployee(@RequestBody @Valid EmployeeDTO inputEmployee){
         EmployeeDTO saveEmployee=  employeeService.createNewEmployee(inputEmployee);
