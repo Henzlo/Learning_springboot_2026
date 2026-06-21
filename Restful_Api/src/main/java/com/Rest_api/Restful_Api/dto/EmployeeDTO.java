@@ -1,5 +1,6 @@
 package com.Rest_api.Restful_Api.dto;
 
+import annotations.EmployeeRoleValidation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -30,7 +31,8 @@ public class EmployeeDTO {
     private Integer age;
 
     @NotBlank(message = "Role filed cannot be blank")
-    @Pattern(regexp = "^(ADMIN|USER)$",message = "Role of the employee can be USER or ADMIN")
+//    @Pattern(regexp = "^(ADMIN|USER)$",message = "Role of the employee can be USER or ADMIN")
+    @EmployeeRoleValidation
     private String role; // ADMIN | USER
 
     @NotNull(message = "salary of employeee should be not null")
